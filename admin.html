@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>پنل مدیریت — محله شاپ</title>
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+  <!-- ===== LOGIN SCREEN ===== -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-box">
+      <div class="login-logo">
+        <div class="logo-icon">
+          <svg width="24" height="24" viewBox="0 0 20 20" fill="none"><path d="M10 2L2 8v10h5v-6h6v6h5V8L10 2z" fill="#fff"/></svg>
+        </div>
+        <div>
+          <div class="login-title">محله شاپ</div>
+          <div class="login-sub">پنل مدیریت</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>رمز عبور مدیر</label>
+        <input type="password" id="adminPass" placeholder="رمز عبور را وارد کنید" />
+      </div>
+      <button class="btn-primary" id="loginBtn">ورود به پنل</button>
+      <div class="login-error" id="loginError">رمز عبور اشتباه است!</div>
+    </div>
+  </div>
+
+  <!-- ===== ADMIN PANEL ===== -->
+  <div class="admin-wrap" id="adminPanel" style="display:none">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L2 8v10h5v-6h6v6h5V8L10 2z" fill="#fff"/></svg>
+        </div>
+        <div>
+          <div class="sidebar-title">محله شاپ</div>
+          <div class="sidebar-sub">پنل مدیریت</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-item nav-item--active" data-page="products">
+          <span class="nav-icon">📦</span> محصولات
+        </a>
+        <a class="nav-item" data-page="add">
+          <span class="nav-icon">➕</span> افزودن محصول
+        </a>
+        <a class="nav-item" href="index.html" target="_blank">
+          <span class="nav-icon">🌐</span> مشاهده سایت
+        </a>
+      </nav>
+      <button class="logout-btn" id="logoutBtn">خروج از پنل</button>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="admin-main">
+
+      <!-- STATS -->
+      <div class="stats-bar">
+        <div class="stat-card">
+          <div class="stat-num" id="statTotal">—</div>
+          <div class="stat-label">کل محصولات</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statInStock">—</div>
+          <div class="stat-label">موجود</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statOrganic">—</div>
+          <div class="stat-label">ارگانیک</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statNew">—</div>
+          <div class="stat-label">جدید</div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS PAGE -->
+      <div class="page" id="page-products">
+        <div class="page-header">
+          <h1 class="page-title">مدیریت محصولات</h1>
+          <button class="btn-primary" id="goAddBtn">+ افزودن محصول جدید</button>
+        </div>
+
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="جستجو در محصولات..." />
+        </div>
+
+        <div class="toast" id="toast"></div>
+
+        <div class="table-wrap">
+          <table class="products-table">
+            <thead>
+              <tr>
+                <th>محصول</th>
+                <th>دسته‌بندی</th>
+                <th>قیمت</th>
+                <th>بج</th>
+                <th>موجودی</th>
+                <th>عملیات</th>
+              </tr>
+            </thead>
+            <tbody id="productsTableBody">
+              <tr><td colspan="6" class="loading-row">در حال بارگذاری...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ADD/EDIT PAGE -->
+      <div class="page" id="page-add" style="display:none">
+        <div class="page-header">
+          <h1 class="page-title" id="formTitle">افزودن محصول جدید</h1>
+          <button class="btn-outline" id="backBtn">← بازگشت</button>
+        </div>
+
+        <div class="form-card">
+          <input type="hidden" id="editId" />
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>نام محصول *</label>
+              <input type="text" id="fname" placeholder="مثال: عسل کوهستانی البرز" />
+            </div>
+            <div class="form-group">
+              <label>دسته‌بندی *</label>
+              <select id="fcategory">
+                <option value="">انتخاب کنید</option>
+                <option>عسل طبیعی</option>
+                <option>صنایع دستی</option>
+                <option>ترشیجات</option>
+                <option>دمنوش</option>
+                <option>سفال</option>
+                <option>آرایشی طبیعی</option>
+                <option>بافتنی و نساجی</option>
+                <option>غلات و حبوبات</option>
+                <option>منبت و چوب</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>قیمت (تومان) *</label>
+              <input type="number" id="fprice" placeholder="مثال: 180000" />
+            </div>
+            <div class="form-group">
+              <label>امتیاز (۱ تا ۵)</label>
+              <input type="number" id="frating" min="1" max="5" step="0.1" placeholder="مثال: 4.5" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>آیکون (ایموجی)</label>
+              <div class="emoji-picker">
+                <input type="text" id="femoji" placeholder="مثال: 🍯" maxlength="2" />
+                <div class="emoji-options">
+                  <span onclick="pickEmoji('🍯')">🍯</span>
+                  <span onclick="pickEmoji('🧶')">🧶</span>
+                  <span onclick="pickEmoji('🫙')">🫙</span>
+                  <span onclick="pickEmoji('🌿')">🌿</span>
+                  <span onclick="pickEmoji('🏺')">🏺</span>
+                  <span onclick="pickEmoji('🧴')">🧴</span>
+                  <span onclick="pickEmoji('🪵')">🪵</span>
+                  <span onclick="pickEmoji('🌾')">🌾</span>
+                  <span onclick="pickEmoji('🫐')">🫐</span>
+                  <span onclick="pickEmoji('🧈')">🧈</span>
+                  <span onclick="pickEmoji('🫚')">🫚</span>
+                  <span onclick="pickEmoji('🍵')">🍵</span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>برچسب</label>
+              <select id="fbadge">
+                <option value="">بدون برچسب</option>
+                <option value="organic">ارگانیک</option>
+                <option value="new">جدید</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>توضیحات محصول</label>
+            <textarea id="fdesc" rows="3" placeholder="توضیح کوتاهی درباره محصول..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="toggle-label">
+              <input type="checkbox" id="fstock" checked />
+              <span class="toggle"></span>
+              محصول موجود است
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn-primary" id="saveBtn">ذخیره محصول</button>
+            <button class="btn-outline" id="cancelBtn">انصراف</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- DELETE MODAL -->
+  <div class="modal-overlay" id="deleteModal" style="display:none">
+    <div class="modal">
+      <div class="modal-icon">🗑️</div>
+      <h3 class="modal-title">حذف محصول</h3>
+      <p class="modal-desc">آیا مطمئنی؟ این عملیات قابل بازگشت نیست.</p>
+      <div class="modal-actions">
+        <button class="btn-danger" id="confirmDelete">بله، حذف شود</button>
+        <button class="btn-outline" id="cancelDelete">انصراف</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
