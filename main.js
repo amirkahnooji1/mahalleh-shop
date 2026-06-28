@@ -120,16 +120,47 @@ function filterProducts(filter) {
   });
 }
 
-// ---- ADD TO CART ----
-let cartCount = 0;
-const cartBadge = document.querySelector('.cart-badge');
+// ---- CART ----
+function getCart() {
+  try { return JSON.parse(localStorage.getItem('ms_cart') || '[]'); } catch { return []; }
+}
+function saveCart(cart) {
+  localStorage.setItem('ms_cart', JSON.stringify(cart));
+}
+function updateCartBadge() {
+  const cart = getCart();
+  const total = cart.reduce((s, i) => s + i.qty, 0);
+  document.querySelectorAll('.cart-badge').forEach(b => {
+    b.textContent = total > 0 ? total.toLocaleString('fa-IR') : '۰';
+  });
+}
+
+// وصل کردن دکمه سبد به صفحه cart.html
+document.querySelector('.cart-btn')?.addEventListener('click', () => {
+  window.location.href = 'cart.html';
+});
+
+updateCartBadge();
 
 function bindProductEvents() {
   document.querySelectorAll('.product__add').forEach(btn => {
     btn.addEventListener('click', () => {
       if (btn.disabled) return;
-      cartCount++;
-      cartBadge.textContent = cartCount.toLocaleString('fa-IR');
+      const card = btn.closest('.product');
+      const id   = parseInt(card.dataset.id);
+      const prod = products.find(p => p.id === id);
+      if (!prod) return;
+
+      const cart = getCart();
+      const existing = cart.find(i => i.id === id);
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ id: prod.id, name: prod.name, category: prod.category, price: prod.price, emoji: prod.emoji, qty: 1 });
+      }
+      saveCart(cart);
+      updateCartBadge();
+
       btn.textContent = '✓';
       btn.style.background = '#2E7D32';
       setTimeout(() => {
