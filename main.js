@@ -2,65 +2,52 @@
    محله شاپ — جاوااسکریپت اصلی
    ============================================ */
 
-// ---- SUPABASE CONFIG ----
 const SUPABASE_URL = 'https://pgytilmdbcksoquruyrc.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBneXRpbG1kYmNrc29xdXJ1eXJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1OTE0NzIsImV4cCI6MjA5ODE2NzQ3Mn0.W7_SLzAhegSxxU6G1kVfbC6a9IaZ_aRWaW6eK83aYPM';
+
+// متغیر global برای محصولات
+let products = [];
 
 // ---- FETCH PRODUCTS FROM SUPABASE ----
 async function loadProducts() {
   const grid = document.getElementById('productGrid');
 
-  // نمایش اسکلتون لودینگ
-  grid.innerHTML = `
-    ${[1,2,3,4,5,6].map(() => `
-      <div class="product product--skeleton">
-        <div class="product__img-wrap skeleton-box"></div>
-        <div class="product__body">
-          <div class="skeleton-line skeleton-line--sm"></div>
-          <div class="skeleton-line"></div>
-          <div class="skeleton-line skeleton-line--md"></div>
-          <div class="skeleton-line skeleton-line--sm"></div>
-        </div>
+  grid.innerHTML = [1,2,3,4,5,6].map(() => `
+    <div class="product product--skeleton">
+      <div class="product__img-wrap skeleton-box"></div>
+      <div class="product__body">
+        <div class="skeleton-line skeleton-line--sm"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line skeleton-line--md"></div>
+        <div class="skeleton-line skeleton-line--sm"></div>
       </div>
-    `).join('')}
-  `;
+    </div>
+  `).join('');
 
   try {
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/products?select=*&order=created_at.desc`,
-      {
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`,
-        }
-      }
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
     );
-
-    if (!res.ok) throw new Error('خطا در دریافت محصولات');
-
-    const products = await res.json();
+    if (!res.ok) throw new Error('خطا');
+    products = await res.json(); // ذخیره در متغیر global
     renderProducts(products);
-
   } catch (err) {
-    grid.innerHTML = `
-      <div class="products__error">
-        <p>⚠️ خطا در بارگذاری محصولات. لطفاً صفحه را رفرش کنید.</p>
-      </div>
-    `;
+    grid.innerHTML = '<div class="products__error"><p>⚠️ خطا در بارگذاری محصولات. لطفاً صفحه را رفرش کنید.</p></div>';
     console.error(err);
   }
 }
 
 // ---- RENDER PRODUCTS ----
-function renderProducts(products) {
+function renderProducts(list) {
   const grid = document.getElementById('productGrid');
 
-  if (!products.length) {
+  if (!list.length) {
     grid.innerHTML = '<p class="products__empty">محصولی یافت نشد.</p>';
     return;
   }
 
-  grid.innerHTML = products.map(p => `
+  grid.innerHTML = list.map(p => `
     <div class="product" data-id="${p.id}" data-category="${p.category}">
       <div class="product__img-wrap">
         <span class="product__emoji">${p.emoji || '📦'}</span>
@@ -84,7 +71,6 @@ function renderProducts(products) {
     </div>
   `).join('');
 
-  // اتصال مجدد رویدادها بعد از رندر
   bindProductEvents();
 }
 
@@ -92,22 +78,18 @@ function renderProducts(products) {
 let currentFilter = 'all';
 
 function setupFilterTabs() {
-  const filterTabs = document.querySelectorAll('.filter-tab');
-  filterTabs.forEach(tab => {
+  document.querySelectorAll('.filter-tab').forEach(tab => {
     tab.addEventListener('click', () => {
-      filterTabs.forEach(t => t.classList.remove('filter-tab--active'));
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('filter-tab--active'));
       tab.classList.add('filter-tab--active');
-
-      const filter = tab.dataset.filter;
-      currentFilter = filter;
-      filterProducts(filter);
+      currentFilter = tab.dataset.filter;
+      filterProducts(currentFilter);
     });
   });
 }
 
 function filterProducts(filter) {
-  const cards = document.querySelectorAll('.product[data-id]');
-  cards.forEach(card => {
+  document.querySelectorAll('.product[data-id]').forEach(card => {
     if (filter === 'all') {
       card.style.display = '';
     } else if (filter === 'organic') {
@@ -135,19 +117,18 @@ function updateCartBadge() {
   });
 }
 
-// وصل کردن دکمه سبد به صفحه cart.html
 document.querySelector('.cart-btn')?.addEventListener('click', () => {
   window.location.href = 'cart.html';
 });
 
-updateCartBadge();
-
+// ---- PRODUCT EVENTS ----
 function bindProductEvents() {
   document.querySelectorAll('.product__add').forEach(btn => {
     btn.addEventListener('click', () => {
       if (btn.disabled) return;
       const card = btn.closest('.product');
       const id   = parseInt(card.dataset.id);
+      // استفاده از products global
       const prod = products.find(p => p.id === id);
       if (!prod) return;
 
@@ -156,7 +137,14 @@ function bindProductEvents() {
       if (existing) {
         existing.qty++;
       } else {
-        cart.push({ id: prod.id, name: prod.name, category: prod.category, price: prod.price, emoji: prod.emoji, qty: 1 });
+        cart.push({
+          id: prod.id,
+          name: prod.name,
+          category: prod.category,
+          price: prod.price,
+          emoji: prod.emoji,
+          qty: 1
+        });
       }
       saveCart(cart);
       updateCartBadge();
@@ -189,12 +177,10 @@ hamburger.addEventListener('click', () => {
 });
 
 document.querySelectorAll('.mobile-nav__link').forEach(link => {
-  link.addEventListener('click', () => {
-    mobileNav.classList.remove('open');
-  });
+  link.addEventListener('click', () => mobileNav.classList.remove('open'));
 });
 
-// ---- STICKY HEADER SHADOW ----
+// ---- STICKY HEADER ----
 const header = document.querySelector('.header');
 window.addEventListener('scroll', () => {
   header.style.boxShadow = window.scrollY > 10
@@ -204,6 +190,7 @@ window.addEventListener('scroll', () => {
 
 // ---- INIT ----
 document.addEventListener('DOMContentLoaded', () => {
+  updateCartBadge();
   loadProducts();
   setupFilterTabs();
 });
