@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>محله شاپ — صنایع دستی و محصولات ارگانیک روستایی</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="container header__inner">
+
+      <div class="logo">
+        <div class="logo__icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 2L2 8v10h5v-6h6v6h5V8L10 2z" fill="#fff"/>
+          </svg>
+        </div>
+        <div>
+          <div class="logo__name">محله شاپ</div>
+          <div class="logo__tagline">بازار صنایع دستی روستایی</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="#" class="nav__link nav__link--active">صفحه اصلی</a>
+        <a href="#categories" class="nav__link">دسته‌بندی‌ها</a>
+        <a href="#products" class="nav__link">محصولات</a>
+        <a href="#about" class="nav__link">درباره ما</a>
+        <a href="#contact" class="nav__link">تماس</a>
+      </nav>
+
+      <div class="header__actions">
+        <button class="icon-btn" aria-label="جستجو">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+        <button class="icon-btn cart-btn" aria-label="سبد خرید">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-badge">۳</span>
+        </button>
+        <button class="icon-btn" aria-label="حساب کاربری">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </button>
+        <button class="hamburger" aria-label="منو" id="hamburger">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ===== MOBILE NAV ===== -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#" class="mobile-nav__link">صفحه اصلی</a>
+    <a href="#categories" class="mobile-nav__link">دسته‌بندی‌ها</a>
+    <a href="#products" class="mobile-nav__link">محصولات</a>
+    <a href="#about" class="mobile-nav__link">درباره ما</a>
+    <a href="#contact" class="mobile-nav__link">تماس</a>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__text">
+        <span class="hero__badge">✦ مستقیم از روستا تا خانه شما</span>
+        <h1 class="hero__title">دست‌ساز، ارگانیک<br>و اصیل ایرانی</h1>
+        <p class="hero__desc">بهترین صنایع دستی و محصولات ارگانیک روستایی را با اطمینان از کیفیت و اصالت محصول خریداری کنید. هر خرید شما یک تولیدکننده محلی را حمایت می‌کند.</p>
+        <div class="hero__btns">
+          <a href="#products" class="btn btn--primary">مشاهده محصولات</a>
+          <a href="#about" class="btn btn--outline">بیشتر بدانید</a>
+        </div>
+        <div class="hero__stats">
+          <div class="hero__stat"><strong>+۵۰۰</strong><span>محصول</span></div>
+          <div class="hero__stat-divider"></div>
+          <div class="hero__stat"><strong>+۱۲۰</strong><span>تولیدکننده</span></div>
+          <div class="hero__stat-divider"></div>
+          <div class="hero__stat"><strong>+۸۰۰۰</strong><span>مشتری راضی</span></div>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <div class="hero__card-grid">
+          <div class="hero__card hero__card--lg">
+            <div class="hero__card-emoji">🏺</div>
+            <div class="hero__card-title">سفالینه دست‌ساز</div>
+            <div class="hero__card-sub">کارگاه‌های روستایی</div>
+          </div>
+          <div class="hero__card">
+            <div class="hero__card-emoji">🍯</div>
+            <div class="hero__card-title">عسل طبیعی</div>
+            <div class="hero__card-sub">کوهستانی</div>
+          </div>
+          <div class="hero__card">
+            <div class="hero__card-emoji">🧶</div>
+            <div class="hero__card-title">بافتنی</div>
+            <div class="hero__card-sub">دست‌باف</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRUST BAR ===== -->
+  <div class="trust-bar">
+    <div class="container trust-bar__inner">
+      <div class="trust-item">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>تضمین اصالت محصول</span>
+      </div>
+      <div class="trust-item">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <span>ارسال سراسری</span>
+      </div>
+      <div class="trust-item">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 6v6l4 2"/></svg>
+        <span>۱۰۰٪ ارگانیک</span>
+      </div>
+      <div class="trust-item">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        <span>ضمانت بازگشت کالا</span>
+      </div>
+      <div class="trust-item">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span>پرداخت امن</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CATEGORIES ===== -->
+  <section class="section" id="categories">
+    <div class="container">
+      <div class="section__header">
+        <div>
+          <div class="section__eyebrow">محصولات ما</div>
+          <h2 class="section__title">دسته‌بندی‌ها</h2>
+        </div>
+        <a href="#" class="section__more">مشاهده همه ←</a>
+      </div>
+      <div class="categories">
+        <a href="#" class="category">
+          <div class="category__icon">🧶</div>
+          <div class="category__name">بافتنی و نساجی</div>
+          <div class="category__count">۴۸ محصول</div>
+        </a>
+        <a href="#" class="category">
+          <div class="category__icon">🍯</div>
+          <div class="category__name">عسل و فرآورده‌ها</div>
+          <div class="category__count">۳۲ محصول</div>
+        </a>
+        <a href="#" class="category">
+          <div class="category__icon">🏺</div>
+          <div class="category__name">سفال و سرامیک</div>
+          <div class="category__count">۵۶ محصول</div>
+        </a>
+        <a href="#" class="category">
+          <div class="category__icon">🌿</div>
+          <div class="category__name">دمنوش و گیاهی</div>
+          <div class="category__count">۴۱ محصول</div>
+        </a>
+        <a href="#" class="category">
+          <div class="category__icon">🫙</div>
+          <div class="category__name">ترشی و مربا</div>
+          <div class="category__count">۲۷ محصول</div>
+        </a>
+        <a href="#" class="category">
+          <div class="category__icon">🪵</div>
+          <div class="category__name">منبت و چوب</div>
+          <div class="category__count">۳۸ محصول</div>
+        </a>
+        <a href="#" class="category">
+          <div class="category__icon">🧴</div>
+          <div class="category__name">آرایشی طبیعی</div>
+          <div class="category__count">۱۹ محصول</div>
+        </a>
+        <a href="#" class="category">
+          <div class="category__icon">🌾</div>
+          <div class="category__name">غلات و حبوبات</div>
+          <div class="category__count">۳۳ محصول</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRODUCTS ===== -->
+  <section class="section section--alt" id="products">
+    <div class="container">
+      <div class="section__header">
+        <div>
+          <div class="section__eyebrow">پرفروش‌ترین‌ها</div>
+          <h2 class="section__title">محصولات ویژه</h2>
+        </div>
+        <div class="filter-tabs">
+          <button class="filter-tab filter-tab--active" data-filter="all">همه</button>
+          <button class="filter-tab" data-filter="organic">ارگانیک</button>
+          <button class="filter-tab" data-filter="صنایع دستی">صنایع دستی</button>
+          <button class="filter-tab" data-filter="new">جدید</button>
+        </div>
+      </div>
+      <div class="products" id="productGrid">
+        <!-- محصولات از Supabase بارگذاری می‌شوند -->
+      </div>
+      <div class="products__more">
+        <a href="#" class="btn btn--outline">مشاهده همه محصولات</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BANNER ===== -->
+  <section class="banner">
+    <div class="container banner__inner">
+      <div class="banner__text">
+        <h2 class="banner__title">از تولیدکننده مستقیم بخرید</h2>
+        <p class="banner__sub">با خرید شما، اقتصاد روستایی و تولید بومی حمایت می‌شود. هر محصول مستقیماً توسط تولیدکننده عرضه می‌شود.</p>
+      </div>
+      <a href="#" class="btn btn--light">فروشنده شوید</a>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section class="section" id="about">
+    <div class="container about">
+      <div class="about__text">
+        <div class="section__eyebrow">داستان ما</div>
+        <h2 class="section__title">چرا محله شاپ؟</h2>
+        <p class="about__desc">محله شاپ با هدف ایجاد پیوند مستقیم بین تولیدکنندگان روستایی و مشتریان شهری تأسیس شد. ما به هر محصول دست‌ساز و ارگانیک به عنوان بخشی از هویت فرهنگی ایران نگاه می‌کنیم.</p>
+        <ul class="about__list">
+          <li>✓ تأیید هویت و آدرس تمام فروشندگان</li>
+          <li>✓ کنترل کیفیت پیش از ارسال</li>
+          <li>✓ گواهی ارگانیک برای محصولات کشاورزی</li>
+          <li>✓ پشتیبانی ۷ روز هفته</li>
+        </ul>
+      </div>
+      <div class="about__cards">
+        <div class="about__card">
+          <div class="about__card-num">۱۲۰+</div>
+          <div class="about__card-label">تولیدکننده فعال</div>
+        </div>
+        <div class="about__card">
+          <div class="about__card-num">۵۰۰+</div>
+          <div class="about__card-label">محصول متنوع</div>
+        </div>
+        <div class="about__card">
+          <div class="about__card-num">۸۰۰۰+</div>
+          <div class="about__card-label">مشتری راضی</div>
+        </div>
+        <div class="about__card">
+          <div class="about__card-num">۳۱</div>
+          <div class="about__card-label">استان ایران</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEWSLETTER ===== -->
+  <section class="newsletter" id="contact">
+    <div class="container newsletter__inner">
+      <div class="newsletter__text">
+        <h2 class="newsletter__title">از تخفیف‌ها باخبر شو</h2>
+        <p class="newsletter__sub">با عضویت در خبرنامه محله شاپ، اول از همه از محصولات جدید و تخفیف‌های ویژه مطلع شو.</p>
+      </div>
+      <form class="newsletter__form" onsubmit="return false;">
+        <input type="email" class="newsletter__input" placeholder="ایمیل خود را وارد کنید" />
+        <button type="submit" class="btn btn--primary">عضویت</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+
+      <div class="footer__brand">
+        <div class="logo logo--footer">
+          <div class="logo__icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 2L2 8v10h5v-6h6v6h5V8L10 2z" fill="#fff"/>
+            </svg>
+          </div>
+          <div>
+            <div class="logo__name">محله شاپ</div>
+            <div class="logo__tagline">بازار صنایع دستی روستایی</div>
+          </div>
+        </div>
+        <p class="footer__brand-desc">بازاری برای دست‌سازه‌های اصیل ایرانی و محصولات ارگانیک روستایی.</p>
+      </div>
+
+      <div class="footer__col">
+        <div class="footer__col-title">دسترسی سریع</div>
+        <a href="#">صفحه اصلی</a>
+        <a href="#categories">دسته‌بندی‌ها</a>
+        <a href="#products">محصولات</a>
+        <a href="#about">درباره ما</a>
+        <a href="#contact">تماس با ما</a>
+      </div>
+
+      <div class="footer__col">
+        <div class="footer__col-title">راهنمای خرید</div>
+        <a href="#">نحوه ثبت سفارش</a>
+        <a href="#">شرایط ارسال</a>
+        <a href="#">بازگشت کالا</a>
+        <a href="#">پرداخت امن</a>
+        <a href="#">سوالات متداول</a>
+      </div>
+
+      <div class="footer__col">
+        <div class="footer__col-title">تماس با ما</div>
+        <span>📞 ۰۲۱-۱۲۳۴۵۶۷۸</span>
+        <span>📧 info@mahallehshop.ir</span>
+        <span>📍 تهران، ایران</span>
+        <div class="footer__socials">
+          <a href="#" aria-label="اینستاگرام" class="social-link">📷</a>
+          <a href="#" aria-label="تلگرام" class="social-link">✈️</a>
+          <a href="#" aria-label="واتساپ" class="social-link">💬</a>
+        </div>
+      </div>
+
+    </div>
+    <div class="footer__bottom">
+      <div class="container">
+        <span>© ۱۴۰۳ محله شاپ — تمام حقوق محفوظ است</span>
+        <div class="footer__bottom-links">
+          <a href="#">حریم خصوصی</a>
+          <a href="#">شرایط استفاده</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
