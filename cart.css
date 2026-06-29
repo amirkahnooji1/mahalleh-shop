@@ -385,3 +385,144 @@
   .steps { padding: 16px; }
   .step__label { display: none; }
 }
+
+/* ============================================
+   کارت به کارت
+   ============================================ */
+.card2card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card2card__header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.card2card__icon { font-size: 36px; }
+.card2card__title { font-size: 16px; font-weight: 700; color: var(--brown-dark); }
+.card2card__sub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+.card2card__amount {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--cream-deep);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  font-size: 14px;
+  color: var(--text-mid);
+}
+.card2card__amount strong {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--brown-main);
+}
+
+.card2card__info {
+  border: 1.5px dashed var(--brown-pale);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.card2card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-mid);
+}
+.card2card__num {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card2card__num strong {
+  font-size: 15px;
+  color: var(--brown-dark);
+  letter-spacing: 1px;
+  direction: ltr;
+}
+.copy-btn {
+  background: var(--brown-main);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.copy-btn:hover { background: var(--brown-dark); }
+
+.card2card__notice {
+  background: #FFF8E1;
+  border: 1px solid #FFE082;
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-size: 13px;
+  color: #5D4037;
+  line-height: 1.6;
+}
+
+.card2card__receipt {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.card2card__receipt label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-mid);
+}
+.card2card__receipt input {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text-main);
+  outline: none;
+  direction: rtl;
+  transition: border-color 0.15s;
+}
+.card2card__receipt input:focus { border-color: var(--brown-main); }
+
+/* ============================================
+   صفحه موفقیت سفارش
+   ============================================ */
+.order-success {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 48px 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: fadeIn 0.4s ease;
+}
+.order-success__icon { font-size: 64px; }
+.order-success h2 { font-size: 22px; font-weight: 700; color: var(--brown-dark); }
+.order-success p { font-size: 14px; color: var(--text-mid); line-height: 1.7; }
+.order-success__note {
+  background: var(--cream-deep);
+  border-radius: var(--radius-md);
+  padding: 12px 20px;
+  font-size: 13px !important;
+  width: 100%;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
