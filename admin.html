@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- ===== LOGIN SCREEN ===== -->
+  <!-- ===== LOGIN ===== -->
   <div class="login-screen" id="loginScreen">
     <div class="login-box">
       <div class="login-logo">
@@ -29,10 +29,9 @@
     </div>
   </div>
 
-  <!-- ===== ADMIN PANEL ===== -->
+  <!-- ===== PANEL ===== -->
   <div class="admin-wrap" id="adminPanel" style="display:none">
 
-    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-logo">
         <div class="logo-icon">
@@ -44,7 +43,11 @@
         </div>
       </div>
       <nav class="sidebar-nav">
-        <a class="nav-item nav-item--active" data-page="products">
+        <a class="nav-item nav-item--active" data-page="orders">
+          <span class="nav-icon">📋</span> سفارشات
+          <span class="nav-badge" id="pendingBadge" style="display:none"></span>
+        </a>
+        <a class="nav-item" data-page="products">
           <span class="nav-icon">📦</span> محصولات
         </a>
         <a class="nav-item" data-page="add">
@@ -57,38 +60,41 @@
       <button class="logout-btn" id="logoutBtn">خروج از پنل</button>
     </aside>
 
-    <!-- MAIN -->
     <main class="admin-main">
 
       <!-- STATS -->
       <div class="stats-bar">
         <div class="stat-card">
-          <div class="stat-num" id="statTotal">—</div>
-          <div class="stat-label">کل محصولات</div>
+          <div class="stat-num" id="statOrders">—</div>
+          <div class="stat-label">کل سفارشات</div>
+        </div>
+        <div class="stat-card stat-card--warn">
+          <div class="stat-num" id="statPending">—</div>
+          <div class="stat-label">در انتظار تأیید</div>
+        </div>
+        <div class="stat-card stat-card--green">
+          <div class="stat-num" id="statDone">—</div>
+          <div class="stat-label">تأیید شده</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num" id="statInStock">—</div>
-          <div class="stat-label">موجود</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num" id="statOrganic">—</div>
-          <div class="stat-label">ارگانیک</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num" id="statNew">—</div>
-          <div class="stat-label">جدید</div>
+          <div class="stat-num" id="statProducts">—</div>
+          <div class="stat-label">محصولات</div>
         </div>
       </div>
 
-      <!-- PRODUCTS PAGE -->
-      <div class="page" id="page-products">
+      <!-- ORDERS PAGE -->
+      <div class="page" id="page-orders">
         <div class="page-header">
-          <h1 class="page-title">مدیریت محصولات</h1>
-          <button class="btn-primary" id="goAddBtn">+ افزودن محصول جدید</button>
+          <h1 class="page-title">مدیریت سفارشات</h1>
+          <button class="btn-outline" onclick="loadOrders()">🔄 بروزرسانی</button>
         </div>
 
-        <div class="search-bar">
-          <input type="text" id="searchInput" placeholder="جستجو در محصولات..." />
+        <div class="filter-row">
+          <button class="filter-tab filter-tab--active" data-status="all">همه</button>
+          <button class="filter-tab" data-status="pending_verify">در انتظار تأیید</button>
+          <button class="filter-tab" data-status="verified">تأیید شده</button>
+          <button class="filter-tab" data-status="shipped">ارسال شده</button>
+          <button class="filter-tab" data-status="cancelled">لغو شده</button>
         </div>
 
         <div class="toast" id="toast"></div>
@@ -97,12 +103,46 @@
           <table class="products-table">
             <thead>
               <tr>
-                <th>محصول</th>
-                <th>دسته‌بندی</th>
-                <th>قیمت</th>
-                <th>بج</th>
-                <th>موجودی</th>
+                <th>شناسه</th>
+                <th>مشتری</th>
+                <th>محصولات</th>
+                <th>مبلغ</th>
+                <th>کد پیگیری</th>
+                <th>وضعیت</th>
+                <th>تاریخ</th>
                 <th>عملیات</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+              <tr><td colspan="8" class="loading-row">در حال بارگذاری...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ORDER DETAIL -->
+      <div class="page" id="page-order-detail" style="display:none">
+        <div class="page-header">
+          <h1 class="page-title" id="orderDetailTitle">جزئیات سفارش</h1>
+          <button class="btn-outline" id="backToOrders">← بازگشت</button>
+        </div>
+        <div id="orderDetailContent"></div>
+      </div>
+
+      <!-- PRODUCTS PAGE -->
+      <div class="page" id="page-products" style="display:none">
+        <div class="page-header">
+          <h1 class="page-title">مدیریت محصولات</h1>
+          <button class="btn-primary" id="goAddBtn">+ افزودن محصول</button>
+        </div>
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="جستجو در محصولات..." />
+        </div>
+        <div class="table-wrap">
+          <table class="products-table">
+            <thead>
+              <tr>
+                <th>محصول</th><th>دسته‌بندی</th><th>قیمت</th><th>بج</th><th>موجودی</th><th>عملیات</th>
               </tr>
             </thead>
             <tbody id="productsTableBody">
@@ -118,10 +158,8 @@
           <h1 class="page-title" id="formTitle">افزودن محصول جدید</h1>
           <button class="btn-outline" id="backBtn">← بازگشت</button>
         </div>
-
         <div class="form-card">
           <input type="hidden" id="editId" />
-
           <div class="form-row">
             <div class="form-group">
               <label>نام محصول *</label>
@@ -131,19 +169,13 @@
               <label>دسته‌بندی *</label>
               <select id="fcategory">
                 <option value="">انتخاب کنید</option>
-                <option>عسل طبیعی</option>
-                <option>صنایع دستی</option>
-                <option>ترشیجات</option>
-                <option>دمنوش</option>
-                <option>سفال</option>
-                <option>آرایشی طبیعی</option>
-                <option>بافتنی و نساجی</option>
-                <option>غلات و حبوبات</option>
-                <option>منبت و چوب</option>
+                <option>عسل طبیعی</option><option>صنایع دستی</option>
+                <option>ترشیجات</option><option>دمنوش</option>
+                <option>سفال</option><option>آرایشی طبیعی</option>
+                <option>بافتنی و نساجی</option><option>غلات و حبوبات</option>
               </select>
             </div>
           </div>
-
           <div class="form-row">
             <div class="form-group">
               <label>قیمت (تومان) *</label>
@@ -151,15 +183,14 @@
             </div>
             <div class="form-group">
               <label>امتیاز (۱ تا ۵)</label>
-              <input type="number" id="frating" min="1" max="5" step="0.1" placeholder="مثال: 4.5" />
+              <input type="number" id="frating" min="1" max="5" step="0.1" placeholder="4.5" />
             </div>
           </div>
-
           <div class="form-row">
             <div class="form-group">
               <label>آیکون (ایموجی)</label>
               <div class="emoji-picker">
-                <input type="text" id="femoji" placeholder="مثال: 🍯" maxlength="2" />
+                <input type="text" id="femoji" placeholder="🍯" maxlength="2" />
                 <div class="emoji-options">
                   <span onclick="pickEmoji('🍯')">🍯</span>
                   <span onclick="pickEmoji('🧶')">🧶</span>
@@ -169,10 +200,6 @@
                   <span onclick="pickEmoji('🧴')">🧴</span>
                   <span onclick="pickEmoji('🪵')">🪵</span>
                   <span onclick="pickEmoji('🌾')">🌾</span>
-                  <span onclick="pickEmoji('🫐')">🫐</span>
-                  <span onclick="pickEmoji('🧈')">🧈</span>
-                  <span onclick="pickEmoji('🫚')">🫚</span>
-                  <span onclick="pickEmoji('🍵')">🍵</span>
                 </div>
               </div>
             </div>
@@ -185,12 +212,10 @@
               </select>
             </div>
           </div>
-
           <div class="form-group">
             <label>توضیحات محصول</label>
             <textarea id="fdesc" rows="3" placeholder="توضیح کوتاهی درباره محصول..."></textarea>
           </div>
-
           <div class="form-group">
             <label class="toggle-label">
               <input type="checkbox" id="fstock" checked />
@@ -198,7 +223,6 @@
               محصول موجود است
             </label>
           </div>
-
           <div class="form-actions">
             <button class="btn-primary" id="saveBtn">ذخیره محصول</button>
             <button class="btn-outline" id="cancelBtn">انصراف</button>

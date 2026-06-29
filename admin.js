@@ -1,32 +1,30 @@
 /* ============================================
-   محله شاپ — جاوااسکریپت پنل مدیریت
+   محله شاپ — پنل مدیریت
    ============================================ */
 
 const SUPABASE_URL = 'https://pgytilmdbcksoquruyrc.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBneXRpbG1kYmNrc29xdXJ1eXJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1OTE0NzIsImV4cCI6MjA5ODE2NzQ3Mn0.W7_SLzAhegSxxU6G1kVfbC6a9IaZ_aRWaW6eK83aYPM';
-
-// رمز عبور پنل مدیریت — بعداً می‌تونی تغییر بدی
-const ADMIN_PASSWORD = 'Amir@4461';
+const ADMIN_PASSWORD = 'mahalleh1403';
 
 let products = [];
+let orders   = [];
 let deleteTargetId = null;
+let currentOrderFilter = 'all';
 
 // ============================================
 // LOGIN
 // ============================================
 document.getElementById('loginBtn').addEventListener('click', login);
-document.getElementById('adminPass').addEventListener('keydown', e => {
-  if (e.key === 'Enter') login();
-});
+document.getElementById('adminPass').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
 
 function login() {
-  const pass = document.getElementById('adminPass').value;
-  const err  = document.getElementById('loginError');
-  if (pass === ADMIN_PASSWORD) {
+  if (document.getElementById('adminPass').value === ADMIN_PASSWORD) {
     document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminPanel').style.display = 'flex';
+    document.getElementById('adminPanel').style.display  = 'flex';
+    loadOrders();
     loadProducts();
   } else {
+    const err = document.getElementById('loginError');
     err.classList.add('show');
     setTimeout(() => err.classList.remove('show'), 2500);
   }
@@ -34,7 +32,7 @@ function login() {
 
 document.getElementById('logoutBtn').addEventListener('click', () => {
   document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('adminPanel').style.display  = 'none';
   document.getElementById('adminPass').value = '';
 });
 
@@ -49,10 +47,6 @@ document.querySelectorAll('.nav-item[data-page]').forEach(item => {
   });
 });
 
-document.getElementById('goAddBtn').addEventListener('click', () => showPage('add'));
-document.getElementById('backBtn').addEventListener('click', () => showPage('products'));
-document.getElementById('cancelBtn').addEventListener('click', () => showPage('products'));
-
 function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
   document.getElementById(`page-${name}`).style.display = 'flex';
@@ -62,27 +56,234 @@ function showPage(name) {
   }
 }
 
+document.getElementById('goAddBtn')?.addEventListener('click',  () => showPage('add'));
+document.getElementById('backBtn')?.addEventListener('click',   () => showPage('products'));
+document.getElementById('cancelBtn')?.addEventListener('click', () => showPage('products'));
+document.getElementById('backToOrders')?.addEventListener('click', () => showPage('orders'));
+
 // ============================================
-// FETCH PRODUCTS
+// ORDERS
+// ============================================
+async function loadOrders() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/orders?select=*&order=created_at.desc`,
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+    );
+    orders = await res.json();
+    renderOrders(orders);
+    updateStats();
+  } catch {
+    document.getElementById('ordersTableBody').innerHTML =
+      '<tr><td colspan="8" class="loading-row">خطا در بارگذاری سفارشات</td></tr>';
+  }
+}
+
+function renderOrders(list) {
+  const filtered = currentOrderFilter === 'all'
+    ? list
+    : list.filter(o => o.status === currentOrderFilter);
+
+  const tbody = document.getElementById('ordersTableBody');
+
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="8" class="loading-row">سفارشی یافت نشد</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(o => {
+    const shipping = safeJSON(o.shipping);
+    const items    = safeJSON(o.items);
+    const itemsText = Array.isArray(items)
+      ? items.map(i => `${i.emoji || '📦'} ${i.name} ×${i.qty}`).join('، ')
+      : '—';
+
+    return `
+      <tr>
+        <td><strong>${o.order_id || '#' + o.id}</strong></td>
+        <td>
+          <div>${shipping.name || '—'}</div>
+          <div style="font-size:11px;color:var(--text-muted)">${shipping.phone || ''}</div>
+        </td>
+        <td style="max-width:180px;font-size:12px">${itemsText}</td>
+        <td><strong>${Number(o.total || 0).toLocaleString('fa-IR')} ت</strong></td>
+        <td style="font-size:12px">${o.receipt_code || '—'}</td>
+        <td>${statusBadge(o.status)}</td>
+        <td style="font-size:11px;color:var(--text-muted)">${formatDate(o.created_at)}</td>
+        <td>
+          <button class="btn-edit" onclick="viewOrder(${o.id})">جزئیات</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function statusBadge(status) {
+  const map = {
+    'pending_verify': ['pending',  'در انتظار تأیید'],
+    'verified':       ['verified', 'تأیید شده'],
+    'shipped':        ['shipped',  'ارسال شده'],
+    'cancelled':      ['cancelled','لغو شده'],
+  };
+  const [cls, label] = map[status] || ['pending', status];
+  return `<span class="status-badge status-badge--${cls}">${label}</span>`;
+}
+
+function formatDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('fa-IR');
+}
+
+function safeJSON(str) {
+  try { return typeof str === 'string' ? JSON.parse(str) : (str || {}); } catch { return {}; }
+}
+
+// FILTER TABS
+document.querySelectorAll('.filter-row .filter-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.filter-row .filter-tab').forEach(t => t.classList.remove('filter-tab--active'));
+    tab.classList.add('filter-tab--active');
+    currentOrderFilter = tab.dataset.status;
+    renderOrders(orders);
+  });
+});
+
+// ============================================
+// ORDER DETAIL
+// ============================================
+function viewOrder(id) {
+  const o = orders.find(x => x.id === id);
+  if (!o) return;
+
+  const shipping = safeJSON(o.shipping);
+  const items    = safeJSON(o.items);
+
+  document.getElementById('orderDetailTitle').textContent = `سفارش ${o.order_id || '#' + o.id}`;
+
+  document.getElementById('orderDetailContent').innerHTML = `
+    <div class="order-detail-grid">
+
+      <div class="detail-card">
+        <div class="detail-card__title">📦 اطلاعات سفارش</div>
+        <div class="detail-card__row"><span>شناسه</span><span>${o.order_id || '#' + o.id}</span></div>
+        <div class="detail-card__row"><span>مبلغ کل</span><span>${Number(o.total).toLocaleString('fa-IR')} تومان</span></div>
+        <div class="detail-card__row"><span>روش پرداخت</span><span>کارت به کارت</span></div>
+        <div class="detail-card__row"><span>کد پیگیری</span><span>${o.receipt_code || '—'}</span></div>
+        <div class="detail-card__row"><span>توضیحات پرداخت</span><span>${o.receipt_note || '—'}</span></div>
+        <div class="detail-card__row"><span>کد تخفیف</span><span>${o.coupon || '—'}</span></div>
+        <div class="detail-card__row"><span>تاریخ ثبت</span><span>${formatDate(o.created_at)}</span></div>
+        <div class="detail-card__row"><span>وضعیت</span><span>${statusBadge(o.status)}</span></div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-card__title">🚚 اطلاعات ارسال</div>
+        <div class="detail-card__row"><span>نام</span><span>${shipping.name || '—'}</span></div>
+        <div class="detail-card__row"><span>موبایل</span><span>${shipping.phone || '—'}</span></div>
+        <div class="detail-card__row"><span>استان</span><span>${shipping.province || '—'}</span></div>
+        <div class="detail-card__row"><span>شهر</span><span>${shipping.city || '—'}</span></div>
+        <div class="detail-card__row"><span>کد پستی</span><span>${shipping.postal || '—'}</span></div>
+        <div class="detail-card__row"><span>آدرس</span><span style="text-align:left;max-width:200px">${shipping.address || '—'}</span></div>
+        <div class="detail-card__row"><span>یادداشت</span><span>${shipping.note || '—'}</span></div>
+      </div>
+    </div>
+
+    <div class="detail-card" style="margin-bottom:16px">
+      <div class="detail-card__title">🛒 محصولات سفارش</div>
+      <table class="order-items-table">
+        <thead>
+          <tr><th>محصول</th><th>قیمت واحد</th><th>تعداد</th><th>جمع</th></tr>
+        </thead>
+        <tbody>
+          ${Array.isArray(items) ? items.map(i => `
+            <tr>
+              <td>${i.emoji || '📦'} ${i.name}</td>
+              <td>${Number(i.price).toLocaleString('fa-IR')} ت</td>
+              <td>${i.qty}</td>
+              <td>${(i.price * i.qty).toLocaleString('fa-IR')} ت</td>
+            </tr>
+          `).join('') : '<tr><td colspan="4">اطلاعات محصولات موجود نیست</td></tr>'}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card__title">⚙️ تغییر وضعیت سفارش</div>
+      <div class="status-actions" style="margin-top:8px">
+        <button class="status-btn status-btn--verify"  onclick="updateOrderStatus(${o.id}, 'verified')">✅ تأیید پرداخت</button>
+        <button class="status-btn status-btn--ship"    onclick="updateOrderStatus(${o.id}, 'shipped')">🚚 ارسال شد</button>
+        <button class="status-btn status-btn--cancel"  onclick="updateOrderStatus(${o.id}, 'cancelled')">❌ لغو سفارش</button>
+      </div>
+    </div>
+  `;
+
+  // نمایش صفحه جزئیات
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('nav-item--active'));
+  showPage('order-detail');
+}
+
+async function updateOrderStatus(id, status) {
+  const labels = { verified: 'تأیید شد', shipped: 'ارسال شد', cancelled: 'لغو شد' };
+  if (!confirm(`وضعیت سفارش به "${labels[status]}" تغییر کند؟`)) return;
+
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${id}`, {
+      method: 'PATCH',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ status })
+    });
+    showToast(`✅ وضعیت سفارش به «${labels[status]}» تغییر کرد`, 'success');
+    await loadOrders();
+    showPage('orders');
+    document.querySelector('[data-page="orders"]')?.classList.add('nav-item--active');
+  } catch {
+    showToast('❌ خطا در بروزرسانی', 'error');
+  }
+}
+
+// ============================================
+// STATS
+// ============================================
+function updateStats() {
+  document.getElementById('statOrders').textContent  = orders.length;
+  document.getElementById('statPending').textContent = orders.filter(o => o.status === 'pending_verify').length;
+  document.getElementById('statDone').textContent    = orders.filter(o => o.status === 'verified' || o.status === 'shipped').length;
+  document.getElementById('statProducts').textContent = products.length;
+
+  const pending = orders.filter(o => o.status === 'pending_verify').length;
+  const badge = document.getElementById('pendingBadge');
+  if (pending > 0) {
+    badge.textContent = pending;
+    badge.style.display = 'inline-flex';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+// ============================================
+// PRODUCTS
 // ============================================
 async function loadProducts() {
   try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/products?select=*&order=created_at.desc`, {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-    });
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/products?select=*&order=created_at.desc`,
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+    );
     products = await res.json();
-    renderTable(products);
-    updateStats(products);
+    renderProductTable(products);
+    updateStats();
   } catch {
     document.getElementById('productsTableBody').innerHTML =
       '<tr><td colspan="6" class="loading-row">خطا در بارگذاری</td></tr>';
   }
 }
 
-// ============================================
-// RENDER TABLE
-// ============================================
-function renderTable(list) {
+function renderProductTable(list) {
   const tbody = document.getElementById('productsTableBody');
   if (!list.length) {
     tbody.innerHTML = '<tr><td colspan="6" class="loading-row">محصولی یافت نشد</td></tr>';
@@ -118,29 +319,15 @@ function renderTable(list) {
   `).join('');
 }
 
-// ============================================
-// STATS
-// ============================================
-function updateStats(list) {
-  document.getElementById('statTotal').textContent   = list.length;
-  document.getElementById('statInStock').textContent = list.filter(p => p.in_stock).length;
-  document.getElementById('statOrganic').textContent = list.filter(p => p.badge === 'organic').length;
-  document.getElementById('statNew').textContent     = list.filter(p => p.badge === 'new').length;
-}
-
-// ============================================
-// SEARCH
-// ============================================
-document.getElementById('searchInput').addEventListener('input', e => {
+document.getElementById('searchInput')?.addEventListener('input', e => {
   const q = e.target.value.toLowerCase();
-  const filtered = products.filter(p =>
+  renderProductTable(products.filter(p =>
     p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)
-  );
-  renderTable(filtered);
+  ));
 });
 
 // ============================================
-// ADD PRODUCT
+// SAVE PRODUCT
 // ============================================
 document.getElementById('saveBtn').addEventListener('click', saveProduct);
 
@@ -149,21 +336,14 @@ async function saveProduct() {
   const name  = document.getElementById('fname').value.trim();
   const cat   = document.getElementById('fcategory').value;
   const price = document.getElementById('fprice').value;
-
-  if (!name || !cat || !price) {
-    showToast('لطفاً فیلدهای ضروری را پر کنید', 'error');
-    return;
-  }
+  if (!name || !cat || !price) return showToast('فیلدهای ضروری را پر کنید', 'error');
 
   const data = {
-    name,
-    category: cat,
-    price: parseInt(price),
+    name, category: cat, price: parseInt(price),
     description: document.getElementById('fdesc').value.trim(),
     badge:  document.getElementById('fbadge').value || null,
     emoji:  document.getElementById('femoji').value || '📦',
     rating: parseFloat(document.getElementById('frating').value) || 4.5,
-    review_count: 0,
     in_stock: document.getElementById('fstock').checked,
   };
 
@@ -173,36 +353,22 @@ async function saveProduct() {
 
   try {
     if (id) {
-      // ویرایش
       await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${id}`, {
         method: 'PATCH',
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
-        },
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
         body: JSON.stringify(data)
       });
-      showToast('✅ محصول با موفقیت ویرایش شد', 'success');
+      showToast('✅ محصول ویرایش شد', 'success');
     } else {
-      // افزودن
       await fetch(`${SUPABASE_URL}/rest/v1/products`, {
         method: 'POST',
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
-        },
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
         body: JSON.stringify(data)
       });
-      showToast('✅ محصول جدید اضافه شد', 'success');
+      showToast('✅ محصول اضافه شد', 'success');
     }
-
     await loadProducts();
-    setTimeout(() => showPage('products'), 1200);
-
+    setTimeout(() => showPage('products'), 1000);
   } catch {
     showToast('❌ خطا در ذخیره‌سازی', 'error');
   } finally {
@@ -211,29 +377,24 @@ async function saveProduct() {
   }
 }
 
-// ============================================
-// EDIT PRODUCT
-// ============================================
 function editProduct(id) {
   const p = products.find(x => x.id === id);
   if (!p) return;
-
-  document.getElementById('editId').value       = p.id;
-  document.getElementById('fname').value        = p.name;
-  document.getElementById('fcategory').value    = p.category;
-  document.getElementById('fprice').value       = p.price;
-  document.getElementById('fdesc').value        = p.description || '';
-  document.getElementById('fbadge').value       = p.badge || '';
-  document.getElementById('femoji').value       = p.emoji || '';
-  document.getElementById('frating').value      = p.rating || '';
-  document.getElementById('fstock').checked     = p.in_stock;
-
+  document.getElementById('editId').value    = p.id;
+  document.getElementById('fname').value     = p.name;
+  document.getElementById('fcategory').value = p.category;
+  document.getElementById('fprice').value    = p.price;
+  document.getElementById('fdesc').value     = p.description || '';
+  document.getElementById('fbadge').value    = p.badge || '';
+  document.getElementById('femoji').value    = p.emoji || '';
+  document.getElementById('frating').value   = p.rating || '';
+  document.getElementById('fstock').checked  = p.in_stock;
   document.getElementById('formTitle').textContent = 'ویرایش محصول';
   showPage('add');
 }
 
 // ============================================
-// DELETE PRODUCT
+// DELETE
 // ============================================
 function confirmDelete(id) {
   deleteTargetId = id;
@@ -250,11 +411,7 @@ document.getElementById('confirmDelete').addEventListener('click', async () => {
   try {
     await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${deleteTargetId}`, {
       method: 'DELETE',
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Prefer': 'return=minimal'
-      }
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Prefer': 'return=minimal' }
     });
     document.getElementById('deleteModal').style.display = 'none';
     showToast('✅ محصول حذف شد', 'success');
@@ -270,11 +427,15 @@ document.getElementById('confirmDelete').addEventListener('click', async () => {
 // ============================================
 function clearForm() {
   ['editId','fname','fprice','fdesc','femoji','frating'].forEach(id => {
-    document.getElementById(id).value = '';
+    const el = document.getElementById(id);
+    if (el) el.value = '';
   });
-  document.getElementById('fcategory').value = '';
-  document.getElementById('fbadge').value = '';
-  document.getElementById('fstock').checked = true;
+  const cat = document.getElementById('fcategory');
+  if (cat) cat.value = '';
+  const badge = document.getElementById('fbadge');
+  if (badge) badge.value = '';
+  const stock = document.getElementById('fstock');
+  if (stock) stock.checked = true;
 }
 
 function pickEmoji(e) {
@@ -283,13 +444,8 @@ function pickEmoji(e) {
 
 function showToast(msg, type) {
   const toast = document.getElementById('toast');
+  if (!toast) return;
   toast.textContent = msg;
   toast.className = `toast toast--${type} show`;
   setTimeout(() => toast.classList.remove('show'), 3000);
 }
-
-// ============================================
-// RLS POLICY برای INSERT/UPDATE/DELETE
-// باید در Supabase اضافه بشه:
-// برای ادمین از service_role key استفاده می‌کنیم
-// ============================================
