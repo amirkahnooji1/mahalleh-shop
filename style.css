@@ -886,3 +886,12 @@ button { cursor: pointer; font-family: inherit; }
   .hero__stats { gap: 12px; }
   .hero__title { font-size: 24px; }
 }
+
+/* عکس واقعی محصول */
+.product__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s;
+}
+.product:hover .product__img { transform: scale(1.04); }

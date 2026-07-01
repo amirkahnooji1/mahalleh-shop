@@ -216,6 +216,26 @@
             <label>توضیحات محصول</label>
             <textarea id="fdesc" rows="3" placeholder="توضیح کوتاهی درباره محصول..."></textarea>
           </div>
+
+          <!-- IMAGE UPLOAD -->
+          <div class="form-group">
+            <label>عکس محصول</label>
+            <input type="hidden" id="currentImageUrl" />
+            <div class="image-dropzone" id="imageDropzone">
+              <div class="dropzone-placeholder">
+                <span class="dropzone-icon">🖼️</span>
+                <span class="dropzone-text">عکس را اینجا بکشید یا کلیک کنید</span>
+                <span class="dropzone-hint">JPG، PNG — حداکثر ۲ مگابایت</span>
+              </div>
+              <div class="image-preview" id="imagePreview" style="display:none">
+                <img id="previewImg" src="" alt="پیش‌نمایش" />
+                <button type="button" class="remove-image" id="removeImage">✕ حذف عکس</button>
+              </div>
+            </div>
+            <input type="file" id="imageInput" accept="image/*" style="display:none" />
+            <div class="upload-status" id="uploadStatus"></div>
+          </div>
+
           <div class="form-group">
             <label class="toggle-label">
               <input type="checkbox" id="fstock" checked />

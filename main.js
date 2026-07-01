@@ -50,7 +50,9 @@ function renderProducts(list) {
   grid.innerHTML = list.map(p => `
     <div class="product" data-id="${p.id}" data-category="${p.category}">
       <div class="product__img-wrap">
-        <span class="product__emoji">${p.emoji || '📦'}</span>
+        ${p.image_url
+          ? `<img src="${p.image_url}" class="product__img" alt="${p.name}" loading="lazy" />`
+          : `<span class="product__emoji">${p.emoji || '📦'}</span>`}
         ${p.badge ? `<span class="product__badge product__badge--${p.badge === 'organic' ? 'org' : 'new'}">${p.badge === 'organic' ? 'ارگانیک' : 'جدید'}</span>` : ''}
         <button class="product__wish" aria-label="افزودن به علاقه‌مندی‌ها">♡</button>
       </div>
