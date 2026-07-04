@@ -37,7 +37,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Segoe UI', Tahoma, 'Vazirmatn', Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, 'Vazirmatn', Arial, sans-serif, 'B Yekan';
   font-size: 15px;
   line-height: 1.7;
   color: var(--text-main);
