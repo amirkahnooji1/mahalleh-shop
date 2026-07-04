@@ -116,6 +116,7 @@ button { cursor: pointer; font-family: inherit; }
    HEADER
    ============================================ */
 .header {
+   font-family: 'B Yekan'
   position: sticky;
   top: 0;
   z-index: 100;
