@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /cart.html
+
+# Sitemap
+Sitemap: https://mahalehshop.ir/sitemap.xml
