@@ -1,7 +1,18 @@
 /* ============================================
    محله شاپ — استایل اصلی
    ============================================ */
-
+@font-face {
+    font-family: "Estedad";
+    src: url("fonts/Estedad[KSHD,wght].woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Vazirmatn";
+    src: url("fonts/Vazirmatn-Regular.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+}
 /* ---- RESET & BASE ---- */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -37,7 +48,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Segoe UI', Tahoma, 'Vazirmatn', Arial, sans-serif, 'B Yekan';
+  font-family: "Estedad";
   font-size: 15px;
   line-height: 1.7;
   color: var(--text-main);
