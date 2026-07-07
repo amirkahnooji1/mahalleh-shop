@@ -167,6 +167,7 @@ button { cursor: pointer; font-family: inherit; }
   justify-content: center;
 }
 .logo__name {
+   font-family: 'BYEKAN'
   font-size: 17px;
   font-weight: 700;
   color: var(--brown-dark);
@@ -175,6 +176,7 @@ button { cursor: pointer; font-family: inherit; }
 .logo__tagline {
   font-size: 10px;
   color: var(--text-muted);
+   font-family: 'Vazirmatn'
 }
 
 /* NAV */
@@ -184,6 +186,7 @@ button { cursor: pointer; font-family: inherit; }
   align-items: center;
 }
 .nav__link {
+   font-family: 'Estedad'
   font-size: 13px;
   color: var(--text-mid);
   padding: 6px 12px;
@@ -248,6 +251,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 .mobile-nav.open { display: flex; }
 .mobile-nav__link {
+   font-family: 'Estedad'
   font-size: 14px;
   color: var(--text-mid);
   padding: 10px 0;
@@ -283,6 +287,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 .hero__title {
+   font-family: 'BYEKAN'
   font-size: 40px;
   font-weight: 700;
   color: var(--brown-dark);
@@ -291,6 +296,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 .hero__desc {
+   font-family: 'Vazirmatn'
   font-size: 15px;
   color: var(--text-mid);
   line-height: 1.8;
@@ -299,6 +305,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 .hero__btns {
+   font-family: 'Estedad'
   display: flex;
   gap: 12px;
   margin-bottom: 32px;
@@ -412,6 +419,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 .section__eyebrow {
+   font-family: 'Estedad'
   font-size: 12px;
   font-weight: 600;
   color: var(--brown-main);
@@ -421,6 +429,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 .section__title {
+   font-family: 'BYEKAN'
   font-size: 26px;
   font-weight: 700;
   color: var(--brown-dark);
