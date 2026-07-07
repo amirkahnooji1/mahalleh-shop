@@ -13,6 +13,12 @@
     font-weight: 500;
     font-style: normal;
 }
+@font-face {
+    font-family: "BYEKAN";
+    src: url("fonts/BYEKAN.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+}
 /* ---- RESET & BASE ---- */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -127,7 +133,7 @@ button { cursor: pointer; font-family: inherit; }
    HEADER
    ============================================ */
 .header {
-   font-family: 'B Yekan'
+   font-family: 'BYEKAN'
   position: sticky;
   top: 0;
   z-index: 100;
@@ -261,6 +267,7 @@ button { cursor: pointer; font-family: inherit; }
   display: flex;
   align-items: center;
   gap: 48px;
+   font-family: 'BYEKAN'
 }
 
 .hero__text { flex: 1; }
