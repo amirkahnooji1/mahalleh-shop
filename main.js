@@ -123,6 +123,13 @@ document.querySelector('.cart-btn')?.addEventListener('click', () => {
   window.location.href = 'cart.html';
 });
 
+// دکمه کاربر — اگه لاگین بود به پروفایل، اگه نبود به auth
+document.getElementById('userBtn')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  const token = localStorage.getItem('ms_token');
+  window.location.href = token ? 'profile.html' : 'auth.html';
+});
+
 // ---- PRODUCT EVENTS ----
 function bindProductEvents() {
   document.querySelectorAll('.product__add').forEach(btn => {
