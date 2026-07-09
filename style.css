@@ -298,7 +298,7 @@ button { cursor: pointer; font-family: inherit; }
   background: var(--brown-main);
   color: var(--white);
   font-size: 12px;
-  padding: 5px 14px;
+  padding: 5px 20px;
   border-radius: 20px;
   margin-bottom: 16px;
 }
