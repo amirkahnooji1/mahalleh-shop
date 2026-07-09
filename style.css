@@ -1,9 +1,24 @@
 /* ============================================
    محله شاپ — استایل اصلی
    ============================================ */
+
+
+/* ============  افزودن فونت   ============== */
 @font-face {
     font-family: "Estedad";
     src: url("fonts/Estedad[KSHD,wght].woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Iranyekan";
+    src: url("fonts/IRANYekanX.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Iransans";
+    src: url("fonts/IRANSans-Bold.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
 }
@@ -76,6 +91,7 @@ button { cursor: pointer; font-family: inherit; }
 
 /* ---- BUTTONS ---- */
 .btn {
+   font-family: "Iranyekan";
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -271,12 +287,13 @@ button { cursor: pointer; font-family: inherit; }
   display: flex;
   align-items: center;
   gap: 48px;
-   font-family: 'BYEKAN'
+   font-family: "Iransans"
 }
 
 .hero__text { flex: 1; }
 
 .hero__badge {
+   font-family: "Iransans"
   display: inline-block;
   background: var(--brown-main);
   color: var(--white);
@@ -287,7 +304,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 .hero__title {
-   font-family: 'BYEKAN'
+   font-family: "Iransans"
   font-size: 40px;
   font-weight: 700;
   color: var(--brown-dark);
@@ -296,7 +313,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 .hero__desc {
-   font-family: 'BYEKAN'
+   font-family: "Iransans"
   font-size: 15px;
   color: var(--text-mid);
   line-height: 1.8;
@@ -305,7 +322,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 .hero__btns {
-   font-family: 'Estedad'
+   font-family: "Iransans"
   display: flex;
   gap: 12px;
   margin-bottom: 32px;
@@ -318,12 +335,14 @@ button { cursor: pointer; font-family: inherit; }
 }
 .hero__stat { text-align: center; }
 .hero__stat strong {
+  font-family: "Iransans"
   display: block;
   font-size: 22px;
   font-weight: 700;
   color: var(--brown-dark);
 }
 .hero__stat span {
+   font-family: "Iransans"
   font-size: 12px;
   color: var(--text-muted);
 }
@@ -361,12 +380,14 @@ button { cursor: pointer; font-family: inherit; }
 
 .hero__card-emoji { font-size: 36px; margin-bottom: 6px; }
 .hero__card-title {
+   font-family: "Iransans"
   font-size: 13px;
   font-weight: 600;
   color: var(--brown-dark);
 }
 .hero__card-sub {
   font-size: 11px;
+   font-family: "Iransans"
   color: var(--text-muted);
   margin-top: 2px;
 }
