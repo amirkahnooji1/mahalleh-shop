@@ -293,14 +293,14 @@ button { cursor: pointer; font-family: inherit; }
 .hero__text { flex: 1; }
 
 .hero__badge {
-   font-family: "Iransans"
+   font-family: "Iransans";
   display: inline-block;
   background: var(--brown-main);
   color: var(--white);
   font-size: 12px;
   padding: 2px 10px;
   border-radius: 20px;
-  margin-bottom: 2px;
+  margin-bottom: 5px;
 }
 
 .hero__title {
@@ -309,7 +309,7 @@ button { cursor: pointer; font-family: inherit; }
   font-weight: 700;
   color: var(--brown-dark);
   line-height: 1.50;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
 }
 
 .hero__desc {
