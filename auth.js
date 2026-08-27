@@ -2,7 +2,7 @@
    محله شاپ — جاوااسکریپت احراز هویت
    ============================================ */
 
-const SUPABASE_URL = 'https://pgytilmdbcksoquruyrc.supabase.co';
+const SUPABASE_URL = 'https://mahalleh-proxy.amirkahnooji1.workers.dev';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBneXRpbG1kYmNrc29xdXJ1eXJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1OTE0NzIsImV4cCI6MjA5ODE2NzQ3Mn0.W7_SLzAhegSxxU6G1kVfbC6a9IaZ_aRWaW6eK83aYPM';
 
 // ============================================
