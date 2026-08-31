@@ -9,7 +9,7 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const SHOP_CARD = {
   number: '6219-8619-0779-7293', // شماره کارت خودت رو اینجا بذار
   owner:  'امیرحسین کهنوجی',
-  bank:   'بانک سینا'
+  bank:   'بانک سامان'
 };
 
 const COUPONS = {
