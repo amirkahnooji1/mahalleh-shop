@@ -381,7 +381,7 @@ function showSuccessStep(orderId, total) {
     <h2>سفارش شما ثبت شد!</h2>
     <p>سفارش <strong>${orderId}</strong> با موفقیت ثبت شد.</p>
     <p>مبلغ <strong>${total.toLocaleString('fa-IR')} تومان</strong> پس از تأیید واریز، پردازش می‌شود.</p>
-    <p class="order-success__note">📞 در صورت نیاز با ما تماس بگیرید: <strong>021-12345678</strong></p>
+    <p class="order-success__note">📞 در صورت نیاز با ما تماس بگیرید: <strong>09137200565</strong></p>
     <a href="index.html" class="btn btn--primary">بازگشت به فروشگاه</a>
   `;
   wrap.appendChild(success);
