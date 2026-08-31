@@ -49,10 +49,10 @@ document.querySelectorAll('.nav-item[data-page]').forEach(item => {
   });
 });
 
-function showPage(name) {
+function showPage(name, skipClear = false) {
   document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
   document.getElementById(`page-${name}`).style.display = 'flex';
-  if (name === 'add') {
+  if (name === 'add' && !skipClear) {
     clearForm();
     document.getElementById('formTitle').textContent = 'افزودن محصول جدید';
   }
@@ -433,6 +433,7 @@ async function saveProduct() {
 }
 
 function editProduct(id) {
+  id = parseInt(id);
   const p = products.find(x => x.id === id);
   if (!p) return;
   document.getElementById('editId').value         = p.id;
@@ -464,7 +465,7 @@ function editProduct(id) {
   }
 
   document.getElementById('formTitle').textContent = 'ویرایش محصول';
-  showPage('add');
+  showPage('add', true);
 }
 
 // ============================================
