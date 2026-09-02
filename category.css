@@ -1,0 +1,155 @@
+/* ============================================
+   محله شاپ — استایل صفحه دسته‌بندی
+   ============================================ */
+
+/* BREADCRUMB */
+.breadcrumb {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+}
+.breadcrumb__inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.breadcrumb__inner a { color: var(--brown-main); text-decoration: none; }
+.breadcrumb__inner a:hover { text-decoration: underline; }
+.breadcrumb__current { color: var(--text-main); font-weight: 500; }
+
+/* SEARCH BAR */
+.search-bar-wrap {
+  background: var(--cream-deep);
+  border-top: 1px solid var(--border);
+  padding: 10px 0;
+}
+.search-bar-input {
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-family: inherit;
+  direction: rtl;
+  outline: none;
+  background: var(--white);
+  color: var(--text-main);
+}
+.search-bar-input:focus { border-color: var(--brown-main); }
+
+/* LAYOUT */
+.cat-main { padding: 28px 0 64px; background: var(--cream-light); min-height: 70vh; }
+
+.cat-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* SIDEBAR */
+.cat-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: sticky;
+  top: 80px;
+}
+
+.sidebar-section {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--brown-dark);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+
+.cat-list { display: flex; flex-direction: column; gap: 2px; }
+
+.cat-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text-mid);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.12s;
+}
+.cat-list-item:hover { background: var(--cream-deep); color: var(--brown-dark); }
+.cat-list-item--active { background: var(--brown-main); color: var(--white) !important; font-weight: 600; }
+.cat-list-item--active .cat-list-count { color: rgba(255,255,255,0.7); }
+
+.cat-list-left { display: flex; align-items: center; gap: 8px; }
+.cat-list-icon { font-size: 16px; }
+.cat-list-count { font-size: 11px; color: var(--text-muted); }
+
+/* SORT */
+.sort-options { display: flex; flex-direction: column; gap: 6px; }
+.sort-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-mid);
+  cursor: pointer;
+}
+.sort-option input { accent-color: var(--brown-main); }
+
+/* FILTER */
+.filter-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-mid);
+  cursor: pointer;
+}
+.filter-check input { accent-color: var(--brown-main); }
+
+/* PRODUCTS AREA */
+.cat-products { display: flex; flex-direction: column; gap: 16px; }
+
+.cat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cat-title { font-size: 20px; font-weight: 700; color: var(--brown-dark); }
+.cat-count { font-size: 13px; color: var(--text-muted); }
+
+/* EMPTY */
+.cat-empty {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 48px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.cat-empty h3 { font-size: 18px; font-weight: 700; color: var(--brown-dark); }
+.cat-empty p  { font-size: 14px; color: var(--text-muted); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .cat-layout { grid-template-columns: 1fr; }
+  .cat-sidebar { position: static; }
+}
