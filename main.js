@@ -26,7 +26,7 @@ async function loadProducts() {
 
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/products?select=*&order=created_at.desc`,
+      `${SUPABASE_URL}/rest/v1/products?select=*&order=created_at.desc&limit=6`,
       { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
     );
     if (!res.ok) throw new Error('خطا');
