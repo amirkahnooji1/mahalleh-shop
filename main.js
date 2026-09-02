@@ -76,33 +76,7 @@ function renderProducts(list) {
   bindProductEvents();
 }
 
-// ---- FILTER TABS ----
-let currentFilter = 'all';
-
-function setupFilterTabs() {
-  document.querySelectorAll('.filter-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('filter-tab--active'));
-      tab.classList.add('filter-tab--active');
-      currentFilter = tab.dataset.filter;
-      filterProducts(currentFilter);
-    });
-  });
-}
-
-function filterProducts(filter) {
-  document.querySelectorAll('.product[data-id]').forEach(card => {
-    if (filter === 'all') {
-      card.style.display = '';
-    } else if (filter === 'organic') {
-      card.style.display = card.querySelector('.product__badge--org') ? '' : 'none';
-    } else if (filter === 'new') {
-      card.style.display = card.querySelector('.product__badge--new') ? '' : 'none';
-    } else {
-      card.style.display = card.dataset.category === filter ? '' : 'none';
-    }
-  });
-}
+// فیلتر به صفحه category.html منتقل شد
 
 // ---- CART ----
 function getCart() {
@@ -201,5 +175,4 @@ window.addEventListener('scroll', () => {
 document.addEventListener('DOMContentLoaded', () => {
   updateCartBadge();
   loadProducts();
-  setupFilterTabs();
 });
