@@ -505,15 +505,8 @@ button { cursor: pointer; font-family: inherit; }
   position: relative;
   background: var(--cream-deep);
   width: 100%;
-  padding-top: 75%; /* نسبت ۴:۳ — عکس همیشه مربع‌مانند */
+  height: 200px;
   overflow: hidden;
-}
-.product__img-wrap > * {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .product__emoji { font-size: 60px; }
 
@@ -894,20 +887,12 @@ button { cursor: pointer; font-family: inherit; }
 
 /* عکس واقعی محصول */
 .product__img {
-  position: absolute;
-  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
+  display: block;
   transition: transform 0.25s ease;
 }
 .product:hover .product__img { transform: scale(1.05); }
-.product__emoji {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 60px;
-}
+.product__emoji { font-size: 60px; }
