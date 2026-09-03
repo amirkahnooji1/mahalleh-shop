@@ -15,6 +15,7 @@ const CATEGORIES = [
   { name: 'بافتنی و نساجی', icon: '🪢' },
   { name: 'غلات و حبوبات',  icon: '🌾' },
   { name: 'منبت و چوب',     icon: '🪵' },
+   { name: 'متفرقه',  icon: '🧉' }, 
 ];
 
 let allProducts = [];
