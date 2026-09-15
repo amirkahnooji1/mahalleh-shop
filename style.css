@@ -35,8 +35,9 @@
 }
 
 html { scroll-behavior: smooth; }
-@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;700&display=swap');
-body { font-family: 'Noto Kufi Arabic', sans-serif, 'Vazirmatn'; 
+
+body {
+  font-family: 'Segoe UI', Tahoma, 'Vazirmatn', Arial, sans-serif;
   font-size: 15px;
   line-height: 1.7;
   color: var(--text-main);
