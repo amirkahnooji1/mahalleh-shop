@@ -596,7 +596,8 @@ button { cursor: pointer; font-family: inherit; }
   margin-bottom: 4px;
 }
 .product__name {
-  font-size: 14px;
+   font-family: "Byekan";
+  font-size: 16px;
   font-weight: 600;
   color: var(--brown-dark);
   margin-bottom: 6px;
