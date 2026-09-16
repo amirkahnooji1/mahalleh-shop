@@ -459,7 +459,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 .category {
-    font-family: "Byekan";
+   
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -478,7 +478,8 @@ button { cursor: pointer; font-family: inherit; }
 
 .category__icon { font-size: 28px; margin-bottom: 8px; }
 .category__name {
-  font-size: 12px;
+   font-family: "Byekan";
+  font-size: 15px;
   font-weight: 600;
   color: var(--text-main);
   margin-bottom: 3px;
@@ -526,6 +527,8 @@ button { cursor: pointer; font-family: inherit; }
 
 .product {
    font-family: "Byekan";
+    font-size: 15px;
+  font-weight: 600;
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
