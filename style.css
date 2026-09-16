@@ -452,12 +452,14 @@ button { cursor: pointer; font-family: inherit; }
    CATEGORIES
    ============================================ */
 .categories {
+
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   gap: 12px;
 }
 
 .category {
+    font-family: "Byekan";
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -523,6 +525,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 .product {
+   font-family: "Byekan";
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
